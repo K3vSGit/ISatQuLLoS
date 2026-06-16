@@ -11,4 +11,4 @@
 40
 1
 3
-C:/Users/kevin/Desktop
+C:/Users/<username>/Desktop
