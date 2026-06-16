@@ -64,7 +64,7 @@ See [docs/WINDOWS_BUILD.md](docs/WINDOWS_BUILD.md) for packaging notes. In short
 
 ## Research Software Notice
 
-ISatQuLLoS is research software. Results depend on the selected assumptions, input parameters, and numerical resolution. Validate outputs independently before relying on them for design, publication, or operational decisions. For more context and information about assumptions and build, please see my bachelor thesis report complementing this software at URL: https://doi.org/10.5281/zenodo.20723274
+ISatQuLLoS is research software. Results depend on the selected assumptions, input parameters, and numerical resolution. Validate outputs independently before relying on them for design, publication, or operational decisions. For more context and information about assumptions and build, please refer to my bachelor thesis report complementing this software at URL: https://doi.org/10.5281/zenodo.20723274
 
 ## Copyright And License
 
