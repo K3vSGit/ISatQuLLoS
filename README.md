@@ -1,6 +1,6 @@
 # ISatQuLLoS
 
-Inter-Satellite Quantum Link Loss Simulations (ISatQuLLoS) is a Python/PyQt5 research application for estimating optical link losses in a two-satellite intersatellite communication network. The software focuses on diffraction-related losses and exports link-loss data that can be used with Satellite Quantum Modelling & Analysis Software (SatQuMa).
+Inter-Satellite Quantum Link Loss Simulations (ISatQuLLoS) is a Python/PyQt5 research application for estimating optical link losses in a two-satellite intersatellite communication network. The software focuses on diffraction-related losses and exports link-loss data that can be used with Satellite Quantum Modelling & Analysis Software (SatQuMa). For more information about SatQuMa, please visit the official page here: https://cnqo.phys.strath.ac.uk/research/quantum-information/satquma
 
 The project was originally developed in 2023 for satellite quantum link-loss simulations. The graphical interface was redesigned and modernized in 2026.
 
@@ -10,9 +10,8 @@ The project was originally developed in 2023 for satellite quantum link-loss sim
 - Numerical link-loss simulations for a two-satellite network.
 - Interactive Plotly/WebGL 3D orbital visualization.
 - Animated satellite markers for visualizing orbital motion.
-- Export of `Time-Loss.csv` for downstream SatQuMa workflows.
+- Export of `Time-Loss.csv` for downstream compatibility with the SatQuMa software.
 - Matplotlib plots for link-loss and system-loss analysis.
-- High-DPI aware interface for modern Windows displays.
 
 ## Project Structure
 
@@ -27,7 +26,7 @@ docs/               Build and packaging notes
 
 Generated folders and files such as `build/`, `__pycache__/`, `.vs/`, `temp.html`, and `plotly.min.js` are intentionally excluded from version control. Runtime Plotly files are generated into the user's application-data folder when needed.
 
-## Requirements
+## Requirements (see requirements.txt)
 
 - Python 3.10 or newer
 - Windows is the primary tested platform
@@ -65,7 +64,7 @@ See [docs/WINDOWS_BUILD.md](docs/WINDOWS_BUILD.md) for packaging notes. In short
 
 ## Research Software Notice
 
-ISatQuLLoS is research software. Results depend on the selected assumptions, input parameters, and numerical resolution. Validate outputs independently before relying on them for design, publication, or operational decisions.
+ISatQuLLoS is research software. Results depend on the selected assumptions, input parameters, and numerical resolution. Validate outputs independently before relying on them for design, publication, or operational decisions. For more context and information about assumptions and build, please see my bachelor thesis report complementing this software at URL: https://doi.org/10.5281/zenodo.20723274
 
 ## Copyright And License
 
