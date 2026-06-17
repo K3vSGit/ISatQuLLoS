@@ -416,13 +416,13 @@ class Simulation(QObject):
                     ɣ[R1 <= X] = np.arcsin((R1 * np.cos(alpha) - R2) / L)
                     ɣ[R1 > X] = -np.arcsin((R2 - R1 * np.sin(np.pi / 2 - alpha)) / L)
 
-                ɣ_array[i] = ɣ
+                ɣ_array[i] = ɣ.item()
 
                 Integrand_array = (k / L) * r_array_reshaped * E_T_Function_reshaped * sp.special.jv(0, (k * r_array_reshaped * ρ_array_reshaped) / L)
-                I_R_array = np.abs(np.trapz(Integrand_array, r_array, axis=1))**2
+                I_R_array = np.abs(np.trapezoid(Integrand_array, r_array, axis=1))**2
 
                 Integrand_array = 2 * np.pi * ρ_array * I_R_array
-                Detection_Probability_scipy = np.trapz(Integrand_array, ρ_array) / Total_Power
+                Detection_Probability_scipy = np.trapezoid(Integrand_array, ρ_array) / Total_Power
 
                 Detection_Probability_array[i] = Detection_Probability_scipy
                 DLOS_RSS_FP_array[i] = L

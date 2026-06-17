@@ -3339,9 +3339,24 @@ class Ui_MainWindow(object):
             '</div>'
         )
         plotly_script = html.escape(self._plotly_javascript_source(), quote=True)
+        css_compatibility_script = (
+            "<script>"
+            "(function(){"
+            "var nativeInsertRule=CSSStyleSheet.prototype.insertRule;"
+            "CSSStyleSheet.prototype.insertRule=function(rule,index){"
+            "try{return nativeInsertRule.call(this,rule,index);}"
+            "catch(error){"
+            "if(String(rule).indexOf(':focus-visible')!==-1){return -1;}"
+            "throw error;"
+            "}"
+            "};"
+            "}());"
+            "</script>"
+        )
         return (
             "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
-            f"<script charset=\"utf-8\" src=\"{plotly_script}\"></script>"
+            + css_compatibility_script
+            + f"<script charset=\"utf-8\" src=\"{plotly_script}\"></script>"
             "<style>"
             "html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #f8fafc; }"
             ".plotly-graph-div, .js-plotly-plot, .plot-container, .svg-container { width: 100vw !important; height: 100vh !important; }"
