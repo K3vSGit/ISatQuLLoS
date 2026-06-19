@@ -70,8 +70,8 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.α = 180
         self.β = 72
         self.n = 1
-        self.d_T = 0.1
-        self.d_R = 0.3
+        self.r_Tx = 0.05
+        self.r_Rx = 0.15
         self.r_Tx_min = 0
         self.r_Rx_min = 0
         self.λ0 = 300
@@ -117,12 +117,10 @@ class Logic(QMainWindow, Ui_MainWindow):
 
         self._load_default_3d_plot()
 
-        #Force the window to open maximized to the specific screen (no matter their resolution/scaling)
-        self.showMaximized()
-
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self._apply_responsive_scale()
+        self._update_parameter_image_view()
         self._request_3d_plot_resize()
 
     def select_Parameters_File(self):
@@ -136,28 +134,54 @@ class Logic(QMainWindow, Ui_MainWindow):
         file_name = self.file_name
 
         if file_path and file_name:
-            with open(file_path, 'r') as file:
-                #parameters_list = [text_H1, text_H2, text_d_T, text_d_R, text_α, text_β, text_n, text_λ0, text_r_Tx_min, text_r_Rx_min, text_t_slice, text_K, text_intLoss, text_path]
-                parameters_list = file.readlines()
-                # Assign each line to a variable and write it in the respective lineEdits on the interface.
-                self.lineEdit_H1.setText(parameters_list[0])
-                self.lineEdit_H2.setText(parameters_list[1])
-                self.lineEdit_d_T.setText(parameters_list[2])
-                self.lineEdit_d_R.setText(parameters_list[3])
-                self.lineEdit_alpha.setText(parameters_list[4])
-                self.lineEdit_beta.setText(parameters_list[5])
-                self.lineEdit_n.setText(parameters_list[6])
-                self.lineEdit_wavelength.setText(parameters_list[7])
-                self.lineEdit_r_Tx_min.setText(parameters_list[8])
-                self.lineEdit_r_Rx_min.setText(parameters_list[9])
-                self.lineEdit_t_slice.setText(parameters_list[10])
-                self.lineEdit_K.setText(parameters_list[11])
-                self.lineEdit_intLoss.setText(parameters_list[12])
+            try:
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    #parameters_list = [text_H1, text_H2, text_r_Tx, text_r_Rx, text_α, text_β, text_n, text_λ0, text_r_Tx_min, text_r_Rx_min, text_t_slice, text_K, text_intLoss, text_path]
+                    parameters_list = [line.rstrip("\r\n") for line in file.readlines()]
+            except OSError as error:
+                self._show_message("Failed to load parameters", f"The selected parameter file could not be read:\n\n{error}")
+                return
+
+            while parameters_list and parameters_list[-1] == "":
+                parameters_list.pop()
+
+            minimum_parameter_count = 13
+            maximum_parameter_count = 14
+            if len(parameters_list) not in (minimum_parameter_count, maximum_parameter_count):
+                message = (
+                    f"The selected parameter file contains {len(parameters_list)} line(s), "
+                    f"but {minimum_parameter_count} or {maximum_parameter_count} are required."
+                )
+                if len(parameters_list) == 1:
+                    message += (
+                        "\n\nThis file may have been saved without line breaks by an older version. "
+                        "Please save the parameters again using the updated Save Parameters button."
+                    )
+                self._show_message("Invalid parameter file", message)
+                return
+
+            # Assign each line to a variable and write it in the respective lineEdits on the interface.
+            self.lineEdit_H1.setText(parameters_list[0])
+            self.lineEdit_H2.setText(parameters_list[1])
+            self.lineEdit_d_T.setText(parameters_list[2])
+            self.lineEdit_d_R.setText(parameters_list[3])
+            self.lineEdit_alpha.setText(parameters_list[4])
+            self.lineEdit_beta.setText(parameters_list[5])
+            self.lineEdit_n.setText(parameters_list[6])
+            self.lineEdit_wavelength.setText(parameters_list[7])
+            self.lineEdit_r_Tx_min.setText(parameters_list[8])
+            self.lineEdit_r_Rx_min.setText(parameters_list[9])
+            self.lineEdit_t_slice.setText(parameters_list[10])
+            self.lineEdit_K.setText(parameters_list[11])
+            self.lineEdit_intLoss.setText(parameters_list[12])
+            if len(parameters_list) == maximum_parameter_count:
                 self.lineEdit_selectOutput.setText(parameters_list[13])
+            else:
+                self.lineEdit_selectOutput.clear()
 
             print(f"Parameter file '{file_name}' imported successfully.")
         else:
-            print("Failed to import the selected file")
+            self._show_message("No parameter file selected", "Please select a parameter file before loading.")
 
     def store_Parameters(self):
         #Below we prompt the user to give a name to the file to be created as well as selecting the 
@@ -169,50 +193,169 @@ class Logic(QMainWindow, Ui_MainWindow):
         text_α = str(self.lineEdit_alpha.text())
         text_β = str(self.lineEdit_beta.text())
         text_n = str(self.lineEdit_n.text())
-        text_d_T = str(self.lineEdit_d_T.text())
-        text_d_R = str(self.lineEdit_d_R.text())
+        text_r_Tx = str(self.lineEdit_d_T.text())
+        text_r_Rx = str(self.lineEdit_d_R.text())
         text_r_Tx_min = str(self.lineEdit_r_Tx_min.text())
         text_r_Rx_min = str(self.lineEdit_r_Rx_min.text())
         text_λ0 = str(self.lineEdit_wavelength.text())
         text_intLoss = str(self.lineEdit_intLoss.text())
         text_K = str(self.lineEdit_K.text())
         text_t_slice = str(self.lineEdit_t_slice.text())
-        text_path = str(self.lineEdit_selectOutput.text())
+        text_path = str(self.lineEdit_selectOutput.text()).strip()
 
-        text_list = [text_H1, text_H2, text_d_T, text_d_R, text_α, text_β, text_n, text_λ0, text_r_Tx_min, text_r_Rx_min, text_t_slice, text_K, text_intLoss, text_path]
+        text_list = [text_H1, text_H2, text_r_Tx, text_r_Rx, text_α, text_β, text_n, text_λ0, text_r_Tx_min, text_r_Rx_min, text_t_slice, text_K, text_intLoss]
+        if text_path:
+            text_list.append(text_path)
         if file_name:
-            with open(file_name, 'w') as file:
-                for i in range(len(text_list)):
-                    file.write(text_list[i])
-            print(f"Parameter file '{file_name}' created successfully.")
+            try:
+                with open(file_name, 'w', encoding='utf-8') as file:
+                    file.write("\n".join(text_list))
+                    file.write("\n")
+            except OSError as error:
+                self._show_message("Failed to save parameters", f"The parameter file could not be saved:\n\n{error}")
+                return
+            print(f"Parameter file created successfully under '{file_name}'.")
+
+    def _show_message(self, title, text, icon=QtWidgets.QMessageBox.Warning, rich_text=False):
+        message_box = QtWidgets.QMessageBox(self)
+        message_box.setIcon(icon)
+        message_box.setWindowTitle(title)
+        message_box.setTextFormat(QtCore.Qt.RichText if rich_text else QtCore.Qt.PlainText)
+        message_box.setText(text)
+        message_box.exec_()
+
+    def _confirm_default_output_folder(self, text):
+        dialog = QtWidgets.QDialog(self)
+        dialog.setWindowTitle("Output folder not selected")
+        dialog.setModal(True)
+        dialog.setMinimumWidth(460)
+
+        layout = QtWidgets.QVBoxLayout(dialog)
+        layout.setContentsMargins(18, 16, 18, 14)
+        layout.setSpacing(12)
+
+        content_layout = QtWidgets.QHBoxLayout()
+        content_layout.setSpacing(12)
+
+        icon_label = QtWidgets.QLabel(dialog)
+        icon = self.style().standardIcon(QtWidgets.QStyle.SP_MessageBoxInformation)
+        icon_label.setPixmap(icon.pixmap(32, 32))
+        icon_label.setAlignment(QtCore.Qt.AlignTop | QtCore.Qt.AlignHCenter)
+        content_layout.addWidget(icon_label, 0, QtCore.Qt.AlignTop)
+
+        text_layout = QtWidgets.QVBoxLayout()
+        message_label = QtWidgets.QLabel(text, dialog)
+        message_label.setWordWrap(True)
+        question_label = QtWidgets.QLabel("Do you want to continue with this output folder?", dialog)
+        question_label.setWordWrap(True)
+        text_layout.addWidget(message_label)
+        text_layout.addWidget(question_label)
+        content_layout.addLayout(text_layout, 1)
+        layout.addLayout(content_layout)
+
+        button_layout = QtWidgets.QHBoxLayout()
+        button_layout.addStretch(1)
+        cancel_button = QtWidgets.QPushButton("Cancel", dialog)
+        continue_button = QtWidgets.QPushButton("Continue", dialog)
+        continue_button.setStyleSheet("""
+            QPushButton {
+                background-color: #f1f3f5;
+                border: 1px solid #c8d0d8;
+                border-radius: 5px;
+                padding: 5px 14px;
+            }
+        """)
+        cancel_button.setStyleSheet("""
+            QPushButton {
+                background-color: #eef6ff;
+                border: 1px solid #bdd7f2;
+                border-radius: 5px;
+                padding: 5px 14px;
+            }
+        """)
+        button_layout.addWidget(cancel_button)
+        button_layout.addWidget(continue_button)
+        layout.addLayout(button_layout)
+
+        cancel_button.clicked.connect(dialog.reject)
+        continue_button.clicked.connect(dialog.accept)
+        return dialog.exec_() == QtWidgets.QDialog.Accepted
+
+    def _aperture_validation_errors(self, r_Tx, r_Rx, r_Tx_min, r_Rx_min):
+        aperture_errors = []
+        r_tx = "r<sub>Tx</sub>"
+        r_rx = "r<sub>Rx</sub>"
+        r_tx_min = "r<sub>Tx</sub><sup>min</sup>"
+        r_rx_min = "r<sub>Rx</sub><sup>min</sup>"
+        if not all(np.isfinite(value) for value in (r_Tx, r_Rx, r_Tx_min, r_Rx_min)):
+            aperture_errors.append("All aperture values must be finite numbers.")
+        if r_Tx <= 0:
+            aperture_errors.append(f"{r_tx} must be greater than 0 m.")
+        if r_Rx <= 0:
+            aperture_errors.append(f"{r_rx} must be greater than 0 m.")
+        if r_Tx_min < 0:
+            aperture_errors.append(f"{r_tx_min} must be greater than or equal to 0 m.")
+        if r_Rx_min < 0:
+            aperture_errors.append(f"{r_rx_min} must be greater than or equal to 0 m.")
+        if r_Tx > 0 and r_Tx_min >= r_Tx:
+            aperture_errors.append(f"{r_tx_min} must be smaller than {r_tx}.")
+        if r_Rx > 0 and r_Rx_min >= r_Rx:
+            aperture_errors.append(f"{r_rx_min} must be smaller than {r_rx}.")
+        return aperture_errors
 
     def update_Parameters(self):
-        global H1, H2, α, β, n, d_T, d_R, r_Tx_min, r_Rx_min, λ0, intLoss, I_Tx_Function0, K, t_slice, path
-
         #We create a list containing all parameters inputted.
-        parameters_List = [self.lineEdit_H1.text(), self.lineEdit_H2.text(), self.lineEdit_alpha.text(), self.lineEdit_beta.text(), self.lineEdit_n.text(), self.lineEdit_d_T.text(), self.lineEdit_d_R.text(), self.lineEdit_r_Tx_min.text(), self.lineEdit_r_Rx_min.text(), self.lineEdit_wavelength.text(), self.lineEdit_intLoss.text(), self.lineEdit_K.text(), self.lineEdit_t_slice.text(), self.lineEdit_selectOutput.text()]
+        parameters_List = [self.lineEdit_H1.text(), self.lineEdit_H2.text(), self.lineEdit_alpha.text(), self.lineEdit_beta.text(), self.lineEdit_n.text(), self.lineEdit_d_T.text(), self.lineEdit_d_R.text(), self.lineEdit_r_Tx_min.text(), self.lineEdit_r_Rx_min.text(), self.lineEdit_wavelength.text(), self.lineEdit_intLoss.text(), self.lineEdit_K.text(), self.lineEdit_t_slice.text()]
 
         #Below we check that the user has filled in all required parameters before storing them.
         for i in range(len(parameters_List)):
             if not parameters_List[i]:
-                QtWidgets.QMessageBox.about(self, "ERROR: Missing input.", "Please fill in all required parameters.")
+                self._show_message("ERROR: Missing input.", "Please fill in all required parameters.")
                 return
             else:
                 pass
 
-        self.H1 = float(self.lineEdit_H1.text())
-        self.H2 = float(self.lineEdit_H2.text())
-        self.α = float(self.lineEdit_alpha.text())
-        self.β = float(self.lineEdit_beta.text())
-        self.n = float(self.lineEdit_n.text())
-        self.d_T = float(self.lineEdit_d_T.text())
-        self.d_R = float(self.lineEdit_d_R.text())
-        self.r_Tx_min = float(self.lineEdit_r_Tx_min.text())
-        self.r_Rx_min = float(self.lineEdit_r_Rx_min.text())
-        self.λ0 = float(self.lineEdit_wavelength.text())
-        self.intLoss = float(self.lineEdit_intLoss.text())
-        self.K = float(self.lineEdit_K.text())
-        self.t_slice = float(self.lineEdit_t_slice.text())
+        try:
+            H1 = float(self.lineEdit_H1.text())
+            H2 = float(self.lineEdit_H2.text())
+            α = float(self.lineEdit_alpha.text())
+            β = float(self.lineEdit_beta.text())
+            n = float(self.lineEdit_n.text())
+            r_Tx = float(self.lineEdit_d_T.text())
+            r_Rx = float(self.lineEdit_d_R.text())
+            r_Tx_min = float(self.lineEdit_r_Tx_min.text())
+            r_Rx_min = float(self.lineEdit_r_Rx_min.text())
+            λ0 = float(self.lineEdit_wavelength.text())
+            intLoss = float(self.lineEdit_intLoss.text())
+            K = float(self.lineEdit_K.text())
+            t_slice = float(self.lineEdit_t_slice.text())
+        except ValueError:
+            self._show_message("Invalid parameter input", "Please check that all parameter fields contain valid numeric values.")
+            return
+
+        aperture_errors = self._aperture_validation_errors(r_Tx, r_Rx, r_Tx_min, r_Rx_min)
+        if aperture_errors:
+            self._show_message(
+                "Invalid aperture parameters",
+                "<p>Please check the aperture parameters:</p>"
+                "<ul>" + "".join(f"<li>{error}</li>" for error in aperture_errors) + "</ul>",
+                rich_text=True,
+            )
+            return
+
+        self.H1 = H1
+        self.H2 = H2
+        self.α = α
+        self.β = β
+        self.n = n
+        self.r_Tx = r_Tx
+        self.r_Rx = r_Rx
+        self.r_Tx_min = r_Tx_min
+        self.r_Rx_min = r_Rx_min
+        self.λ0 = λ0
+        self.intLoss = intLoss
+        self.K = K
+        self.t_slice = t_slice
         self.path = str(self.lineEdit_selectOutput.text())
         self._sync_visualize_controls_from_parameters()
         print("** Parameter list updated.")
@@ -225,34 +368,51 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.lineEdit_selectOutput.setText(self.folder_path) #This is to show the path selected on the GUI.
             print(f"Output folder '{self.folder_name}' selected.")
 
+    def _default_output_folder(self):
+        if getattr(sys, "frozen", False):
+            return os.path.dirname(os.path.abspath(sys.executable))
+        return BASE_DIR
+
     def _validated_output_folder(self):
         output_folder = str(self.lineEdit_selectOutput.text()).strip()
+        warning_message = ""
         if not output_folder:
-            return None, "Please select a valid output folder before running the simulations."
+            output_folder = self._default_output_folder()
+            warning_message = (
+                "No output folder was selected.\n\n"
+                "The Time - Loss.csv file will be saved in:\n"
+                f"{output_folder}"
+            )
+        folder_description = "default output folder" if warning_message else "selected output folder"
 
         output_folder = os.path.abspath(os.path.expanduser(output_folder))
         if not os.path.isdir(output_folder):
-            return None, f"The selected output folder does not exist:\n{output_folder}"
+            return None, f"The {folder_description} does not exist:\n{output_folder}", ""
 
         try:
             with tempfile.NamedTemporaryFile(prefix="isatqullos_write_test_", suffix=".tmp", dir=output_folder, delete=True):
                 pass
         except OSError as error:
-            return None, f"The selected output folder is not writable:\n{output_folder}\n\n{error}"
+            return None, f"The {folder_description} is not writable:\n{output_folder}\n\n{error}", ""
 
-        return output_folder, ""
+        return output_folder, "", warning_message
 
     @QtCore.pyqtSlot() #Decorator needed to send signal to run the simulations once logic file is instructed to do so by the user.
     def run_simulation(self):
-        output_folder, output_error = self._validated_output_folder()
+        output_folder, output_error, output_warning = self._validated_output_folder()
         if output_error:
-            QtWidgets.QMessageBox.warning(self, "Invalid output folder", output_error)
+            self._show_message("Invalid output folder", output_error)
+            self.progressBar.setFormat("%p%")
+            self.update_progress_bar(0)
+            return
+        if output_warning and not self._confirm_default_output_folder(output_warning):
             self.progressBar.setFormat("%p%")
             self.update_progress_bar(0)
             return
 
         self.path = output_folder
-        self.lineEdit_selectOutput.setText(output_folder)
+        if not output_warning:
+            self.lineEdit_selectOutput.setText(output_folder)
 
         #Set is_running flag to True, or stop_simulation to false.
         self.simulation.stop = False
@@ -263,10 +423,10 @@ class Logic(QMainWindow, Ui_MainWindow):
 
         #Call the main function from the ISatQuLLoS module with the input parameters.
         #We set it equals to a list of figures "figs" that are returned from the main() method.
-        #self.simulation.main(self, self.H1, self.H2, self.α, self.β, self.n, self.d_T, self.d_R, self.r_Tx_min, self.r_Rx_min, self.λ0, self.intLoss, self.I_Tx_Function0, self.K, self.t_slice, self.path).progressUpdated.connect(self.update_progress_bar)
+        #self.simulation.main(self, self.H1, self.H2, self.α, self.β, self.n, self.r_Tx, self.r_Rx, self.r_Tx_min, self.r_Rx_min, self.λ0, self.intLoss, self.I_Tx_Function0, self.K, self.t_slice, self.path).progressUpdated.connect(self.update_progress_bar)
         #The first figure in the figs list, is the 3D plot.
         try:
-            figs = self.simulation.main(self.H1, self.H2, self.α, self.β, self.n, self.d_T, self.d_R, self.r_Tx_min, self.r_Rx_min, self.λ0, self.intLoss, self.I_Tx_Function0, self.K, self.t_slice, self.path)
+            figs = self.simulation.main(self.H1, self.H2, self.α, self.β, self.n, self.r_Tx, self.r_Rx, self.r_Tx_min, self.r_Rx_min, self.λ0, self.intLoss, self.I_Tx_Function0, self.K, self.t_slice, self.path)
 
             if self.simulation.stop == False:
                 self._last_simulation_3d_parameters = (self.H1, self.H2, self.α, self.β, self.n)
@@ -517,7 +677,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self._sync_visualize_controls(H1, H2, alpha, beta)
         self.fig3D = self.simulation.create3D_Plot(H1, H2, alpha, beta, n)
         
-        self.display_3D_plot_trace_update(self.fig3D, status_text, status_detail)
+        self.display_3D_plot(self.fig3D, status_text, status_detail, force_reload=True)
         print("** 3D Plot created succesfully.")
 
         #Set standalone 3D Plot flag True AFTER the display_3D_plot method was called once,

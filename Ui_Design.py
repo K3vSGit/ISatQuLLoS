@@ -84,7 +84,7 @@ class Ui_MainWindow(object):
         self.graphicsView_pictureParameters.setSizePolicy(sizePolicy)
         self.graphicsView_pictureParameters.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.graphicsView_pictureParameters.setAutoFillBackground(True)
-        self.graphicsView_pictureParameters.setStyleSheet("background-image: url(:/IMAGES/Satellite Network 1.jpg); background-position: center; background-repeat: no-repeat;")
+        self.graphicsView_pictureParameters.setStyleSheet("")
         self.graphicsView_pictureParameters.setObjectName("graphicsView_pictureParameters")
         self.gridLayout_6.addWidget(self.graphicsView_pictureParameters, 0, 0, 1, 1)
         self.frame_parameters = QtWidgets.QFrame(self.tab)
@@ -1749,7 +1749,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">• r</span><span style=\" font-size:14pt; vertical-align:sub;\">Tx</span><span style=\" font-size:14pt; vertical-align:super;\">min</span><span style=\" font-size:14pt;\"> =           m</span></p></body></html>"))
-        self.lineEdit_r_Tx_min.setPlaceholderText(_translate("MainWindow", "0.05"))
+        self.lineEdit_r_Tx_min.setPlaceholderText(_translate("MainWindow", "0.02"))
         self.textEdit_8.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -1793,13 +1793,13 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">• d</span><span style=\" font-size:14pt; vertical-align:sub;\">T</span><span style=\" font-size:14pt;\"> =           m</span></p></body></html>"))
-        self.lineEdit_d_T.setPlaceholderText(_translate("MainWindow", "0.1"))
+        self.lineEdit_d_T.setPlaceholderText(_translate("MainWindow", "0.05"))
         self.textEdit_5.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">• d</span><span style=\" font-size:14pt; vertical-align:sub;\">R</span><span style=\" font-size:14pt; font-weight:600;\"> </span><span style=\" font-size:14pt;\">=           m</span></p></body></html>"))
-        self.lineEdit_d_R.setPlaceholderText(_translate("MainWindow", "0.3"))
+        self.lineEdit_d_R.setPlaceholderText(_translate("MainWindow", "0.15"))
         self.textEdit_13.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -1886,7 +1886,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">H</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">1</span><span style=\" font-size:14pt; font-weight:600;\">, H</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">2 </span><span style=\" font-size:14pt; font-weight:600;\">:</span><span style=\" font-size:14pt;\"> Respective heights of satellites 1 &amp; 2 above Earths surface [km].</span></p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">d</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">T</span><span style=\" font-size:14pt; font-weight:600;\">, d</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">R</span><span style=\" font-size:14pt;\">: Diameters of the transmitter &amp; receiver apertures respectively [m].</span></p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">r</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">Tx</span><span style=\" font-size:14pt; font-weight:600;\">, r</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">Rx</span><span style=\" font-size:14pt;\">: Radii of the transmitter &amp; receiver apertures respectively [m].</span></p>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">r</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">Tx</span><span style=\" font-size:14pt; font-weight:600; vertical-align:super;\">min</span><span style=\" font-size:14pt; font-weight:600;\">, r</span><span style=\" font-size:14pt; font-weight:600; vertical-align:sub;\">Rx</span><span style=\" font-size:14pt; font-weight:600; vertical-align:super;\">min</span><span style=\" font-size:14pt;\">:  Minimum radii of the transmitter &amp; receiver apertures respectively [m].</span></p>\n"
 "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">α </span><span style=\" font-size:14pt;\">: Relative angle between the orbits of satellites 1 &amp; 2 [°].</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; font-weight:600;\">β </span><span style=\" font-size:14pt;\">: Phase difference dictating initial position of satellite 2 [°].</span></p>\n"
@@ -2034,6 +2034,41 @@ class Ui_MainWindow(object):
         button.setMinimumHeight(minimum_height)
         button.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
 
+    def _configure_parameter_image_view(self):
+        self._parameter_image_focus_x = 0.15  # 0.0 = left edge, 0.5 = center, 1.0 = right edge.
+        self._parameter_image_focus_y = 0.50
+        self._parameter_image_pixmap = QtGui.QPixmap(":/IMAGES/Satellite Network 1.jpg")
+        self._parameter_image_scene = QtWidgets.QGraphicsScene(self.graphicsView_pictureParameters)
+        self._parameter_image_item = self._parameter_image_scene.addPixmap(self._parameter_image_pixmap)
+        self.graphicsView_pictureParameters.setScene(self._parameter_image_scene)
+        self.graphicsView_pictureParameters.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.graphicsView_pictureParameters.setRenderHint(QtGui.QPainter.SmoothPixmapTransform, True)
+        self.graphicsView_pictureParameters.setBackgroundBrush(QtGui.QBrush(QtGui.QColor("#ffffff")))
+        QTimer.singleShot(0, self._update_parameter_image_view)
+
+    def _update_parameter_image_view(self):
+        if not hasattr(self, "_parameter_image_item") or self._parameter_image_pixmap.isNull():
+            return
+
+        viewport_size = self.graphicsView_pictureParameters.viewport().size()
+        view_width = max(1, viewport_size.width())
+        view_height = max(1, viewport_size.height())
+        image_width = max(1, self._parameter_image_pixmap.width())
+        image_height = max(1, self._parameter_image_pixmap.height())
+
+        scale = max(view_width / image_width, view_height / image_height)
+        scaled_width = image_width * scale
+        scaled_height = image_height * scale
+        focus_x = max(0.0, min(1.0, getattr(self, "_parameter_image_focus_x", 0.5)))
+        focus_y = max(0.0, min(1.0, getattr(self, "_parameter_image_focus_y", 0.5)))
+
+        x_offset = max(0.0, scaled_width - view_width) * focus_x
+        y_offset = max(0.0, scaled_height - view_height) * focus_y
+
+        self._parameter_image_item.setScale(scale)
+        self._parameter_image_item.setPos(-x_offset, -y_offset)
+        self._parameter_image_scene.setSceneRect(0, 0, view_width, view_height)
+
     def _layout_parameter_page(self):
         self.graphicsView_pictureParameters.setMinimumWidth(220)
         self.graphicsView_pictureParameters.setMaximumWidth(360)
@@ -2043,6 +2078,7 @@ class Ui_MainWindow(object):
         )
         self.graphicsView_pictureParameters.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.graphicsView_pictureParameters.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self._configure_parameter_image_view()
 
         self.gridLayout_6.setContentsMargins(8, 8, 8, 8)
         self.gridLayout_6.setSpacing(10)
@@ -2076,12 +2112,11 @@ class Ui_MainWindow(object):
         main_parameters_layout.setVerticalSpacing(8)
         self._add_parameter_field(main_parameters_layout, 0, 0, "H<sub>1</sub> =", self.lineEdit_H1, "km")
         self._add_parameter_field(main_parameters_layout, 0, 3, "H<sub>2</sub> =", self.lineEdit_H2, "km")
-        self._add_parameter_field(main_parameters_layout, 1, 0, "d<sub>T</sub> =", self.lineEdit_d_T, "m")
-        self._add_parameter_field(main_parameters_layout, 1, 3, "d<sub>R</sub> =", self.lineEdit_d_R, "m")
+        self._add_parameter_field(main_parameters_layout, 1, 0, "r<sub>Tx</sub> =", self.lineEdit_d_T, "m")
+        self._add_parameter_field(main_parameters_layout, 1, 3, "r<sub>Rx</sub> =", self.lineEdit_d_R, "m")
         self._add_parameter_field(main_parameters_layout, 2, 0, "α =", self.lineEdit_alpha, "deg")
         self._add_parameter_field(main_parameters_layout, 2, 3, "β =", self.lineEdit_beta, "deg")
         self._add_parameter_field(main_parameters_layout, 3, 0, "n =", self.lineEdit_n)
-        self._add_parameter_field(main_parameters_layout, 3, 3, "λ =", self.lineEdit_wavelength, "nm")
         main_parameters_layout.setColumnStretch(1, 1)
         main_parameters_layout.setColumnStretch(4, 1)
 
@@ -2094,6 +2129,7 @@ class Ui_MainWindow(object):
         self._add_parameter_field(additional_parameters_layout, 1, 0, "t<sub>s</sub> =", self.lineEdit_t_slice, "s")
         self._add_parameter_field(additional_parameters_layout, 1, 3, "K =", self.lineEdit_K)
         self._add_parameter_field(additional_parameters_layout, 2, 0, "I<sub>L</sub> =", self.lineEdit_intLoss, "dB")
+        self._add_parameter_field(additional_parameters_layout, 2, 3, "λ =", self.lineEdit_wavelength, "nm")
         additional_parameters_layout.setColumnStretch(1, 1)
         additional_parameters_layout.setColumnStretch(4, 1)
 
@@ -2303,12 +2339,12 @@ class Ui_MainWindow(object):
             <style>
                 body {{ font-size: {about_body_pt}pt; color: #102f4a; }}
                 p {{ margin: 8px 0; line-height: 1.24; }}
-                p.note {{ color: #4d6479; font-size: {max(8, int(round(9 * scale)))}pt; margin-top: 14px; }}
+                p.note {{ color: #4d6479; font-size: {max(7, int(round(8 * scale)))}pt; margin-top: 10px; line-height: 1.16; }}
                 b {{ font-weight: 700; }}
             </style>
             <p><b>H<sub>1</sub>, H<sub>2</sub></b>: Satellite altitudes above Earth's surface [km].</p>
-            <p><b>d<sub>T</sub>, d<sub>R</sub></b>: Transmitter and receiver aperture diameters [m].</p>
-            <p><b>r<sub>Tx</sub><sup>min</sup>, r<sub>Rx</sub><sup>min</sup></b>: Minimum transmitter and receiver aperture radii [m].</p>
+            <p><b>r<sub>Tx</sub>, r<sub>Rx</sub></b>: Transmitter and receiver aperture radii [m].</p>
+            <p><b>r<sub>Tx</sub><sup>min</sup>, r<sub>Rx</sub><sup>min</sup></b>: <sup>**</sup>Minimum inner radii of transmitter and receiver apertures [m].</p>
             <p><b>α</b>: Relative angle between the two orbital planes [deg].</p>
             <p><b>β</b>: Initial phase offset of satellite 2 [deg].</p>
             <p><b>λ</b>: Optical wavelength [nm].</p>
@@ -2316,7 +2352,9 @@ class Ui_MainWindow(object):
             <p><b>K</b>: Time step used for photon detection probability calculations [s].</p>
             <p><b>I<sub>L</sub></b>: Internal system loss [dB].</p>
             <p><b>t<sub>s</sub></b>: Symmetric time window around closest approach [s]. Use 0 to evaluate the whole first pass.</p>
-            <p class="note"><b>Note:</b> the <b>'Reset Plot'</b> button rebuilds the 3D plot using the most recently confirmed simulation parameters input by the user.</p>
+            <br>
+            <p class="note"><b><sup>**</sup></b> The inner radii allow the user to define an annulus (donut) shaped aperture. Leave these values at 0 for a full aperture.</p>
+            <p class="note"><b>Note:</b> pressing <i>'Reset Plot'</i> rebuilds the 3D plot using the most recently confirmed simulation parameters input by the user.</p>
         """)
         self.textBrowser.setHtml(f"""
             <style>
@@ -2332,6 +2370,7 @@ class Ui_MainWindow(object):
             </ol>
             <p></p>
             <p>This software is designed for concurrent use with the Satellite Quantum Modelling &amp; Analysis Software (<b>SatQuMa</b>), pertaining secret key length simulations in QKD-based inter-satellite communication networks. ISatQuLLoS generates a .csv file containing all the optical-loss data (format-compatible with SatQuMa). More information can be found on the <a href="https://cnqo.phys.strath.ac.uk/research/quantum-information/satquma/">SatQuMa Software</a> official page. For more information on ISatQuLLoS, please refer to the <a href="https://github.com/K3vSGit/ISatQuLLoS">GitHub repository</a> and read the full <a href="https://doi.org/10.5281/zenodo.20723274">thesis report</a> for details pertaining development and context.</p>
+            <br>
             <p><i>ISatQuLLoS was made using Python v.3.13 and the following libraries: NumPy, SciPy, PyQt5, Plotly, Matplotlib, and CSV.</i></p>
         """)
         self.textEdit_20.setHtml(f"""
@@ -2787,9 +2826,9 @@ class Ui_MainWindow(object):
                 border-radius: 6px;
             }
             QGraphicsView#graphicsView_pictureParameters {
-                background-image: url(:/IMAGES/Satellite Network 1.jpg);
-                background-position: center;
-                background-repeat: no-repeat;
+                background-color: #ffffff;
+                border: 1px solid #c7d2df;
+                border-radius: 6px;
             }
         """)
 
@@ -2884,6 +2923,39 @@ class Ui_MainWindow(object):
 
         for widget in self.findChildren(QtWidgets.QGroupBox):
             widget.setStyleSheet(group_box_style)
+
+        self.groupBox_2.setStyleSheet("""
+            QGroupBox {
+                background-color: rgba(246, 250, 240, 236);
+                border: 1px solid #bfd4ea;
+                border-radius: 8px;
+                margin-top: 22px;
+                padding-top: 12px;
+                font-weight: 600;
+                color: #173753;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 4px;
+            }
+        """)
+        self.groupBox.setStyleSheet("""
+            QGroupBox {
+                background-color: rgba(242, 248, 255, 236);
+                border: 1px solid #cadaaf;
+                border-radius: 8px;
+                margin-top: 22px;
+                padding-top: 12px;
+                font-weight: 600;
+                color: #173753;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 4px;
+            }
+        """)
 
         self.groupBox_3.setStyleSheet("""
             QGroupBox {
@@ -3039,11 +3111,9 @@ class Ui_MainWindow(object):
             }
         """)
         self.graphicsView_pictureParameters.setStyleSheet("""
-            background-image: url(:/IMAGES/Satellite Network 1.jpg);
-            background-position: center;
-            background-repeat: no-repeat;
             border: 1px solid #c7d2df;
             border-radius: 6px;
+            background-color: #ffffff;
         """)
 
     def handleLinkClicked(self, url):
@@ -3829,6 +3899,15 @@ class Ui_MainWindow(object):
             """
         )
 
+    def _reset_3d_plot_view(self):
+        if self._plotly_view is not None:
+            self._plotly_view.setParent(None)
+            self._plotly_view.deleteLater()
+
+        self.views = []
+        self._plotly_view = None
+        self._plotly_load_connected = False
+
     def _ensure_3d_plot_view(self):
         if self._plotly_view is not None:
             return self._plotly_view
@@ -4041,7 +4120,16 @@ class Ui_MainWindow(object):
         self._push_3d_plot_status()
 
     #Method to display the 3D plot in the openGLWidget_3Dplot widget
-    def display_3D_plot(self, fig, status_text=None, status_detail=""):
+    def display_3D_plot(self, fig, status_text=None, status_detail="", force_reload=False):
+        if force_reload:
+            self._reset_3d_plot_view()
+            self._plotly_ready = False
+            self._plotly_html_loaded = False
+            self._pending_3d_payload_json = None
+            self._pending_3d_trace_payload_json = None
+            self._plotly_retry_count = 0
+            self._plotly_flush_scheduled = False
+
         if status_text is not None:
             self._plot_status_text = status_text
             self._plot_status_detail = status_detail

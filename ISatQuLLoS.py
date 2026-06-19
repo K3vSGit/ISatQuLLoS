@@ -92,7 +92,7 @@ class Simulation(QObject):
         return fig3D
 
 
-    def main(self, H1, H2, α, β, n, d_T, d_R, r_Tx_min, r_Rx_min, λ0, intLoss, I_Tx_Function0, K, t_slice, path):
+    def main(self, H1, H2, α, β, n, r_Tx, r_Rx, r_Tx_min, r_Rx_min, λ0, intLoss, I_Tx_Function0, K, t_slice, path):
 
         G = 6.6743*10**(-11)        #Gravitational constant in SI units
         M = 5.972*10**24            #Mass of the Earth in 'Kg'
@@ -117,8 +117,6 @@ class Simulation(QObject):
         λ = λ0*10**(-9) #Wavelength in 'm'.
 
         k = (2*np.pi)/λ
-        r_Tx = d_T/2 #radius of transmitter aperture
-        r_Rx = d_R/2 #radius of receiver aperture
 
         I_Tx = 1/(np.pi*((r_Tx)**2 - (r_Tx_min)**2))
         E_Tx = np.sqrt(I_Tx)
